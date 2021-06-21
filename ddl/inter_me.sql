@@ -38,3 +38,10 @@ CREATE TABLE candidate_education (
   FOREIGN KEY (degree_id) REFERENCES keeping.degree_enum(id),
   FOREIGN KEY (school_id) REFERENCES keeping.school_enum(id)
 );
+
+CREATE TABLE candidate_preferred_time (
+    candidate_id INT NOT NULL,
+    preferred_time_id INT NOT NULL,
+    FOREIGN KEY (preferred_time_id) REFERENCES keeping.preferred_time_enum(id),
+    FOREIGN KEY (candidate_id) REFERENCES intern_me.candidate(id)
+);
