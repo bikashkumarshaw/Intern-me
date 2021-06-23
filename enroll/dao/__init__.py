@@ -111,22 +111,22 @@ def patch_candidate_education(candidate_id, education):
     values  = [] 
     for idx, rec in enumerate(education):
         rank = idx + 1
-        if 'start_date' in rec: 
+        if 'start_date' in rec:
             from_month = rec['start_date'][0] if rec['start_date'][0] else None
             from_year  = rec['start_date'][1] if rec['start_date'][1] else None 
         else:
             from_month = None
             from_year  = None
-        if 'end_date' in rec:
-            to_month   = rec['end_date'][0] if rec['end_date'][0] else None
-            to_year    = rec['end_date'][1] if rec['end_date'][1] else None
+        if 'batch' in rec:
+            to_month   = None
+            to_year    = rec['batch'] if rec['batch'] else None
         else:
             to_month   = None
             to_year    = None
 
         school_id  = get_school_id(rec['institute'])
         if rec['degree']:
-            degree_id = get_degree_id(rec['degree'])
+            degree_id = rec['degree']
         else:
             degree_id = None
 

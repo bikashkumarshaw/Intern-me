@@ -123,7 +123,7 @@ def enrol():
     params = request.get_json()
 
     name = params.get("name", "")
-    linkedin_profile = params.get("linkedin_profile", "")
+    linkedin_profile = params.get("linkedin_url", "")
 
     # In future
     '''
@@ -137,7 +137,7 @@ def enrol():
 
     education = params.get("education", [])
 
-    phone_number = params.get("phone_number")
+    phone_number = params.get("phone")
     emails = params.get("email")
 
     if not is_valid_email(emails):
@@ -217,6 +217,44 @@ def get_preferred_time(*args, **kwargs):
     q = """ 
         SELECT * FROM
         keeping.preferred_time_enum
+        """
+
+    data = []
+    with AUTH_ENGINE.connect() as conn:
+        res = conn.execute(q)
+
+        for r in res:
+            data.append({
+                         "value": r.id,
+                         "label": r.name
+                        })
+
+    return jsonify({"data": data})
+
+@app.route("/api/degree/list")
+def get_preferred_time(*args, **kwargs):
+    """ 
+    ---
+    tags:
+      - Reference APIs
+    responses:
+      "200":
+        description: Auto generated using Swagger Inspector
+        content:
+            application/json:
+                schema:
+                        type: array
+                        items:
+                            type: object
+                            properties:
+                                value:
+                                    type: integer
+                                label:
+                                    type: string
+    """
+    q = """ 
+        SELECT * FROM
+        keeping.degree_enum
         """
 
     data = []
