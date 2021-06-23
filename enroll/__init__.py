@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 from args import _define_args
 from enroll.dao import enroll_candidates
@@ -21,6 +22,8 @@ swagger_config = {
 }
 
 app = Flask(__name__)
+CORS(app)
+
 swagger = Swagger(app, config=swagger_config)
 
 ARGS = _define_args()
@@ -63,14 +66,8 @@ def enrol():
                     type: string
                   degree:
                     type: integer
-                  start_date:
-                    type: Array
-                    items:
-                        type: string
-                  end_date:
-                    type: Array
-                    items:
-                        type: string
+                  batch:
+                    type: integer
             email:
               type: string
             work_env:
@@ -93,9 +90,8 @@ def enrol():
                 "linkedin_profile"  : "https://www.linkedin.com/in/abhishek-bachchan/",
                 "education": [{
                                 "institute": "x",
-                                "degree": "y",
-                                "start_date": ["01", "95"],
-                                "end_date": ["01", "96"]
+                                "degree": 2,
+                                "batch": 2012
                             }],
                 "work_environment": {
                                      "preferred_env": 1,
@@ -232,7 +228,7 @@ def get_preferred_time(*args, **kwargs):
     return jsonify({"data": data})
 
 @app.route("/api/degree/list")
-def get_preferred_time(*args, **kwargs):
+def get_degree_list(*args, **kwargs):
     """ 
     ---
     tags:
